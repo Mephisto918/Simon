@@ -34,12 +34,13 @@ boxes.forEach((box, index)=>{
 });
 
 async function gameLoop(){
+    title2('');
     if(!gameRun){ return end();}
 
+    turnIndicator(playerTurn);
+
     if(playerTurn == 1){
-        console.log('bot move start');
-        await botMove();//this is the function that does the long animation
-        console.log('bot move finish');
+        await botMove();
     }
 }
 
@@ -47,10 +48,8 @@ function end() {
     playerTurn = 1;
     turns = 1;
     level = 1;
-
     botArray = [];
     playerArray = [];
-
     gameRun = false;
     title('Game Over!');
     title2('Press Spacebar to play again');
@@ -65,7 +64,6 @@ async function playerInput(e, box, index){
         if( steps >= botArray.length ){
             playerTurn = 1;
             steps = 0;
-            turnIndicator(playerTurn);
             gameLoop();
             return;
         }
@@ -73,7 +71,6 @@ async function playerInput(e, box, index){
         console.log(`index: ${index}, array: ${botArray[steps]}`);
         gameRun = false;
         steps = 0;
-        turnIndicator(playerTurn);
         gameLoop();
         return;
     }
@@ -99,7 +96,6 @@ async function botMove(){
         });
     };
     playerTurn = 0;
-    turnIndicator(playerTurn);
     level++;
     gameLoop();
 }

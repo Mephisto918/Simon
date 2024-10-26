@@ -11,22 +11,20 @@ function buttonState(state) {
         boxes.forEach((box, index) =>{
             box.addEventListener('click', (e)=> playerInput(e, box, index));
             box.style.backgroundColor = 'red';
-            console.log('added');
         });
     }else{
         boxes.forEach((box, index) =>{
             box.removeEventListener('click', (e)=> playerInput(e, box, index));
             box.style.backgroundColor = 'green';
-            console.log('remove');
         });
     }
 }
 
 function turnIndicator(turn) {
     if(turn == 1){      
-        body.style.backgroundImage = `linear-gradient(to bottom, black 70%, red)`;
+        body.style.backgroundImage = `radial-gradient(circle farthest-side at center, black 50%, red 200%)`;
     }else if(turn == 0){
-        body.style.backgroundImage = `linear-gradient(to bottom, black 70%, green)`;
+        body.style.backgroundImage = `radial-gradient(circle farthest-side at center, black 50%, green 200%)`;
     }
 }
 

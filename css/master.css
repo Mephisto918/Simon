@@ -10,7 +10,8 @@ body{
     font-family: 'Segoe UI', sans-serif;
     text-align: center;
     color: white;
-    background-image: linear-gradient(to bottom, black 70%, green);
+    /* background-image: linear-gradient(to bottom, black 70%, green); */
+    background-image:  radial-gradient(circle farthest-side at center, black 50%, green 200%);
     transition: all 0.5s;
 
     height: 100dvh;
@@ -31,7 +32,7 @@ body{
 
 section{
     position: relative;
-    border: 1px solid white;
+    /* border: 1px solid white; */
 
     >div:nth-child(1){
         margin-bottom: auto;
@@ -52,31 +53,32 @@ section{
         >div{
             width: 8rem;
             aspect-ratio: 1/1;
-            border: 1px solid white;
+            /* border: 1px solid white; */
             border-radius: 10px;
+            box-shadow: rgba(255, 255, 255, 0.4) 0px 2px 4px, rgba(255, 255, 255, 0.3) 0px 7px 13px -3px, rgba(255, 255, 255, 0.2) 0px -3px 0px inset;
 
             &:nth-child(1){
-                background-color: rgb(158, 157, 157);
+                background-color: green;
                 &:hover{
-                    background-color: color-mix(in srgb, rgb(158, 157, 157) 70%, white 30%);
+                    background-color: color-mix(in srgb, green 70%, black 50%);
                 }
             }
             &:nth-child(2){
-                background-color: green;
+                background-color: red;
                 &:hover{
-                    background-color: color-mix(in srgb, green 70%, white 30%);
+                    background-color: color-mix(in srgb, red 70%, black 50%);
                 }
             }
             &:nth-child(3){
                 background-color: blue;
                 &:hover{
-                    background-color: color-mix(in srgb, blue 70%, white 30%);
+                    background-color: color-mix(in srgb, blue 70%, black 50%);
                 }
             }
             &:nth-child(4){
-                background-color: lime;
+                background-color: yellow;
                 &:hover{
-                    background-color: color-mix(in srgb, lime 70%, white 30%);
+                    background-color: color-mix(in srgb, yellow 70%, black 50%);
                 }
             }
 
