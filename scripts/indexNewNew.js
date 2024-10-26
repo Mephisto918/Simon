@@ -10,6 +10,7 @@ let gameRun = false;
 let turns = 1;
 let level = 1;
 
+let sounds = ['../sounds-20241026T012418Z-001/sounds/green.mp3', '../sounds-20241026T012418Z-001/sounds/red.mp3', '../sounds-20241026T012418Z-001/sounds/blue.mp3', '../sounds-20241026T012418Z-001/sounds/yellow.mp3'];
 let botArray = [];
 let playerArray = [];
 
@@ -61,6 +62,8 @@ async function playerInput(e, box, index){
     clickAnim(e);
     if(index == botArray[steps]){
         steps++;
+        sounds[index];
+        console.log('sda');
         if( steps >= botArray.length ){
             playerTurn = 1;
             steps = 0;

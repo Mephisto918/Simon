@@ -1,96 +1,112 @@
 const boxes = document.querySelectorAll('.boxes');
+const diaLog = document.querySelector('#dialogue');
+const diaLog2 = document.querySelector('#dialogue2');
 function random(){
     return Math.floor(Math.random() * 4);
 }
 
-console.log(random());
-let gameFlag = true;
+let playerTurn = 1;
+let gameRun = false;
+let turns = 1;
+let level = 1;
 
-const gameTime = 100; //ms
+let sounds = ['../sounds/green.mp3',
+             '../sounds/red.mp3', 
+             '../sounds/blue.mp3',
+              '../sounds/yellow.mp3'];
 let botArray = [];
+let playerArray = [];
 
-let givenArray = [0,1,2,3,0,1,2,3];
+let steps = 0;
 
-function main(){
-    if(gameFlag){
-        let miniFlag = botTurn();
-        setTimeout(botSequence, 1000);
-        gameFlag = miniFlag;
-    }else{
-        let miniFlag = playerTurn();
-        // console.log('plager');
-        if(!miniFlag){
+(()=>{
+    alert('aler alive');
+    document.addEventListener('keydown', (e)=>{
+        if(e.code == 'Space'){
+            if(gameRun){
+                return;
+            }
+
+            console.log('space');
+            gameRun = true;
+            gameLoop();
+        }
+    });
+})();
+
+boxes.forEach((box, index)=>{
+    box.addEventListener('click', (e)=> playerInput(e, box, index));
+});
+
+async function gameLoop(){
+    title2('');
+    if(!gameRun){ return end();}
+
+    turnIndicator(playerTurn);
+
+    if(playerTurn == 1){
+        await botMove();
+    }
+}
+
+function end() {
+    playerTurn = 1;
+    turns = 1;
+    level = 1;
+    botArray = [];
+    playerArray = [];
+    gameRun = false;
+    title('Game Over!');
+    title2('Press Spacebar to play again');
+    let end = new Audio('../sounds/wrong.mp3');
+    end.play();
+}
+
+async function playerInput(e, box, index){
+    if(playerTurn == 1) return;
+
+    clickAnim(e);
+    if(index == botArray[steps]){
+        steps++;
+        console.log(sounds[index]);
+        let sound = new Audio(sounds[index]);
+        sound.play();
+        if( steps >= botArray.length ){
+            playerTurn = 1;
+            steps = 0;
+            gameLoop();
             return;
         }
-        gameFlag = miniFlag;
+    }else{
+        console.log(`index: ${index}, array: ${botArray[steps]}`);
+        gameRun = false;
+        steps = 0;
+        gameLoop();
+        return;
     }
-}  
-
-function botTurn() { 
-    const AIno = random();
-    // boxes[AIno].classList.add('click');
-    // setTimeout(()=>{boxes[AIno].classList.remove('click')}, 500);
-    botArray.push(AIno);
-    mode = false;
-    console.log(botArray, 'bot');
-
-    return false;
 }
 
-function botSequence(){
-    botArray.forEach((element, index)=>{
-        setTimeout(() => {
-            const oldColor = boxes[element].style.backgroundColor;
-
-            boxes[element].classList.add('click');
-            boxes[element].style.backgroundColor = 'rgba(50, 50, 50, 0.5)';
-            setTimeout(()=>{
-                boxes[element].classList.remove('click');
-                boxes[element].style.backgroundColor = oldColor;
-            }, 500); 
-        },index * 1000);
-    });
-}
-function playerTurn() {
-    boxes.forEach(box =>{
-        box.addEventListener('click', (e) => {
-            box.classList.add('click');
-            box.classList.add('lightBg');
-            for(let a = 0; a < botArray.length; a++){
-                if(box.attributes[1].value == botArray[a]){
-                    console.log('correct', a);
-                }else{
-                    return false;
-                }
-                
-            }
-            // console.log(, 'player');
+async function botMove(){
+    title(`Level ${level}!`);
+        const AIno = random();
+        botArray.push(AIno);
+    for(let a = 0; a < botArray.length; a++){
+        await new Promise(resolve =>{
+            setTimeout(() => {
+                const oldColor = boxes[botArray[a]].style.backgroundColor;
+    
+                boxes[botArray[a]].classList.add('click');
+                boxes[botArray[a]].style.backgroundColor = 'rgba(50, 50, 50, 0.5)';
+                setTimeout(()=>{
+                    boxes[botArray[a]].classList.remove('click');
+                    boxes[botArray[a]].style.backgroundColor = oldColor;
+                    resolve();
+                }, 500); 
+            }, 800);
         });
-    });
-
-    return true;
+    };
+    playerTurn = 0;
+    level++;
+    gameLoop();
 }
-// givenArray.forEach((element, index)=>{
-//     setTimeout(() => {
-//         const oldColor = boxes[element].style.backgroundColor;
 
-//         boxes[element].classList.add('click');
-//         boxes[element].style.backgroundColor = 'rgba(50, 50, 50, 0.5)';
-//         setTimeout(()=>{
-//             boxes[element].classList.remove('click');
-//             boxes[element].style.backgroundColor = oldColor;
-//         }, 500); 
-//     },index * 1000);
-// });
-
-
-// boxes.forEach(box =>{
-//     box.addEventListener('click', (e) => {
-//         box.classList.add('click');
-//         box.classList.add('lightBg');
-//         botArray.push(box.attributes[1].value);
-//         console.log(botArray);
-//     });
-// });
-
-document.addEventListener('keydown', main);
